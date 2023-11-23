@@ -4,8 +4,8 @@ import { COOKIE_NAME } from './constants.js'
 import { resolve } from 'path'
 import { log } from 'console'
 
-export const createToken = (id: String, email: String, expiresIn: string) => {
-    const payload = {id,email}
+export const createToken = (id: String, email: String, name:string, expiresIn: string) => {
+    const payload = {id,email, name}
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn
     })
@@ -13,7 +13,10 @@ export const createToken = (id: String, email: String, expiresIn: string) => {
 }
 
 export const verifyToken =async (req:Request, res:Response, next:NextFunction) => {
-    const token = req.signedCookies[`${COOKIE_NAME}`]
+    const {token} = req.body
+    // console.log(jwt.decode(token))
+    const user = jwt.decode(token)
+    // console.log(token)
     if(!token || token.trim() === '') {
         return res.status(401).json({message: 'Token not recieved'})
     }
@@ -27,7 +30,10 @@ export const verifyToken =async (req:Request, res:Response, next:NextFunction) =
                 console.log('Token Verification Successful')
                 resolve();
                 res.locals.jwtData = success
-                return next()
+                // return next()
+                // @ts-ignore
+                return res.status(200).json({message: 'Token verified', name:user.name, email:user.email, id:user.id  })
+
             }
         })
     })

@@ -1,9 +1,11 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { checkAuthStatus, loginUser, logoutUser, signupUser } from "../helpers/api-communicator";
+import { checkAuthStatus, loginUser, signupUser } from "../helpers/api-communicator";
+import toast from "react-hot-toast";
 
 type User = {
   name: string;
   email: string;
+  id:string
 };
 type UserAuth = {
   isLoggedIn: boolean;
@@ -20,9 +22,11 @@ const AuthContext = createContext<UserAuth | null>(null);
 
   useEffect(() => {
     async function checkStatus() {
-      const data = await checkAuthStatus()
+      const token = localStorage.getItem('auth')
+      const data = await checkAuthStatus(token)
+      console.log(data)
       if (data) {
-        setUser({email: data.email, name: data.name})
+        setUser({email: data.email, name: data.name, id:data.id})
         setIsLoggedIn(true)
       }
     }
@@ -32,7 +36,8 @@ const AuthContext = createContext<UserAuth | null>(null);
   const login = async (email: string, password: string) => {
     const data = await loginUser(email,password);
     if (data) {
-      setUser({email: data.email, name: data.name})
+      localStorage.setItem('auth', data.token)
+      setUser({email: data.email, name: data.name, id:data.id})
       console.log(data)
       setIsLoggedIn(true)
     }
@@ -40,16 +45,17 @@ const AuthContext = createContext<UserAuth | null>(null);
   const signup = async (name: string, email: string, password: string) => {
     const data = await signupUser(name,email,password);
     if (data) {
-      setUser({email: data.email, name: data.name})
+      localStorage.setItem('auth', data.token)
+      setUser({email: data.email, name: data.name, id:data.id})
       console.log(data)
       setIsLoggedIn(true)
     }
   };
   const logout = async () => {
-    await logoutUser();
+    localStorage.removeItem('auth')
     setIsLoggedIn(false)
     setUser(null)
-    window.location.reload()
+    toast.success('Logged out')
   }
   const value = {
     user,

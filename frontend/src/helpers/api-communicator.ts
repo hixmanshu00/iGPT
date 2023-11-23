@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 export const loginUser =async (email:string, password:string) => {
     const res = await axios.post('/user/login', {email,password}, {
         withCredentials:true
@@ -22,8 +21,8 @@ export const signupUser =async (name:string,email:string, password:string) => {
     return data;
 }
 
-export const checkAuthStatus =async () => {
-    const res = await axios.get('/user/auth-status')
+export const checkAuthStatus =async (token:any) => {
+    const res = await axios.post('/user/auth-status',{token})
     if(res.status!==200) {
         throw new Error('Unable to authenticate')
     }
@@ -31,9 +30,9 @@ export const checkAuthStatus =async () => {
     return data;
 }
 
-export const sendChatRequest =async (message:string) => {
+export const sendChatRequest =async (message:string,id:string|undefined) => {
     const res = await axios.post('/chat/new',{
-        message
+        message,id
     })
     if(res.status!==200) {
         throw new Error('Unable to send chat')
@@ -42,8 +41,8 @@ export const sendChatRequest =async (message:string) => {
     return data;
 }
 
-export const getUserChats =async () => {
-    const res = await axios.get('/chat/all-chats')
+export const getUserChats =async (id:string) => {
+    const res = await axios.get(`/chat/all-chats/${id}`)
     if(res.status!==200) {
         throw new Error('Unable to get chats')
     }
@@ -51,8 +50,8 @@ export const getUserChats =async () => {
     return data;
 }
 
-export const deleteChats =async () => {
-    const res = await axios.delete('/chat/delete')
+export const deleteChats =async (id:string|undefined) => {
+    const res = await axios.delete(`/chat/delete/${id}`)
     if(res.status!==200) {
         throw new Error('Unable to delete chats')
     }
@@ -60,11 +59,3 @@ export const deleteChats =async () => {
     return data;
 }
 
-export const logoutUser =async () => {
-    const res = await axios.get('/user/logout')
-    if(res.status!==200) {
-        throw new Error('Unable to logout')
-    }
-    const data = await res.data;
-    return data;
-}

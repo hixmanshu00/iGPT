@@ -7,19 +7,16 @@ const chatRoutes = Router();
 chatRoutes.post(
   "/new",
   validate(chatCompletionValidator),
-  verifyToken,
   generateChatCompletion
 );
 
 chatRoutes.get(
-  "/all-chats",
-  verifyToken,
+  "/all-chats/:id",
   sendChatsToUser
 );
 
 chatRoutes.delete(
-    "/delete",
-    verifyToken,
+    "/delete/:id",
     deleteChats
   );
 

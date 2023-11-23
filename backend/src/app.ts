@@ -8,8 +8,8 @@ config()
 const app = express()
 
 // middlewares
-app.use(cors({origin:'https://i-gpt.netlify.app', credentials:true}))
 app.use(express.json())
+app.use(cors({origin:'https://i-gpt.netlify.app', credentials:true}))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
 // remove in prod

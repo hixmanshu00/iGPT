@@ -1,10 +1,10 @@
-import User from '../models/User.js';
-import { configureOpenAI } from '../config/opnenai-config.js';
-import { OpenAIApi } from 'openai';
+import User from "../models/User.js";
+import { configureOpenAI } from "../config/opnenai-config.js";
+import { OpenAIApi } from "openai";
 export const generateChatCompletion = async (req, res, next) => {
-    const { message } = req.body;
+    const { message, id } = req.body;
     try {
-        const user = await User.findById(res.locals.jwtData.id);
+        const user = await User.findById(id);
         if (!user)
             return res
                 .status(401)
@@ -35,27 +35,23 @@ export const generateChatCompletion = async (req, res, next) => {
 };
 export const sendChatsToUser = async (req, res, next) => {
     try {
-        const user = await User.findById(res.locals.jwtData.id);
+        const { id: _id } = req.params;
+        const user = await User.findById(_id);
         if (!user) {
             return res.status(401).send("User not registered or token malfunctioned");
-        }
-        if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).send("Permissions didn't match");
         }
         return res.status(200).json({ message: "ok", chats: user.chats });
     }
     catch (error) {
+        console.log(error);
         return res.status(500).json({ message: "error", cause: error.message });
     }
 };
 export const deleteChats = async (req, res, next) => {
     try {
-        const user = await User.findById(res.locals.jwtData.id);
+        const user = await User.findById(req.params.id);
         if (!user) {
             return res.status(401).send("User not registered or token malfunctioned");
-        }
-        if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).send("Permissions didn't match");
         }
         //@ts-ignore
         user.chats = [];

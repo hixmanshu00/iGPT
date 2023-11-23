@@ -31,7 +31,7 @@ const Chat = () => {
     const newMessage: Message = { role: "user", content };
     setChatMessages((prev) => [...prev, newMessage]);
     toast.loading('Generating response...',{id:'res'})
-    const chatData = await sendChatRequest(content);
+    const chatData = await sendChatRequest(content, auth?.user?.id);
     setChatMessages([...chatData.chats]);
     toast.success('Response generated',{id:'res', duration:2000})
   };
@@ -39,7 +39,7 @@ const Chat = () => {
   const handleDeleteChats = async () => {
     try {
       toast.loading("Deleting Chats", { id: "deletechats" });
-      await deleteChats();
+      await deleteChats(auth?.user?.id);
       setChatMessages([]);
       toast.success("Deleted chats successfully",{ id: "deletechats" });
     } catch (error) {
@@ -51,7 +51,7 @@ const Chat = () => {
   useLayoutEffect(() => {
     if (auth?.isLoggedIn && auth.user) {
       toast.loading("Loading Chats", { id: "loadchats" });
-      getUserChats()
+      getUserChats(auth.user.id)
         .then((data) => {
           setChatMessages([...data.chats]);
           toast.success("Successfully loaded chats", { id: "loadchats" });
