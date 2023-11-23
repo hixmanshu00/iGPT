@@ -33,7 +33,7 @@ export const signup = async (
     // create token and store cookie
     res.clearCookie(COOKIE_NAME, {
         httpOnly: true,
-        domain: "i-gpt.netlify.app",
+        domain: "i-gpt",
         signed: true,
         path: "/",
       });
@@ -42,7 +42,7 @@ export const signup = async (
       expires.setDate(expires.getDate() + 7);
       res.cookie(COOKIE_NAME, token, {
         path: "/",
-        domain: "i-gpt.netlify.app",
+        domain: "i-gpt",
         expires,
         httpOnly: true,
         signed: true,
@@ -72,7 +72,7 @@ export const login = async (
     }
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "i-gpt.netlify.app",
+      domain: "i-gpt",
       signed: true,
       path: "/",
     });
@@ -81,7 +81,7 @@ export const login = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "i-gpt.netlify.app",
+      domain: "i-gpt",
       expires,
       httpOnly: true,
       signed: true,
@@ -128,7 +128,7 @@ export const logout = async (
     }
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "i-gpt.netlify.app",
+      domain: "i-gpt",
       signed: true,
       path: "/",
       sameSite: 'none',
