@@ -70,21 +70,21 @@ export const login = async (
     if (!isPasswordCorrect) {
       return res.status(403).send("Incorrect Password");
     }
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      domain: "i-gpt.netlify.app",
-      signed: true,
-      path: "/",
-    });
+    // res.clearCookie(COOKIE_NAME, {
+    //   httpOnly: true,
+    //   // domain: "i-gpt.netlify.app",
+    //   signed: true,
+    //   // path: "/",
+    // });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
-      path: "/",
-      domain: "i-gpt.netlify.app",
+      // path: "/",
+      // domain: "i-gpt.netlify.app",
       expires,
       httpOnly: true,
-      signed: true,
+      // signed: true,
       sameSite: 'none',
       secure: true
     });
