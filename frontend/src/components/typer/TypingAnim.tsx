@@ -1,7 +1,5 @@
 import { TypeAnimation } from "react-type-animation";
 
-import React from "react";
-
 const TypingAnim = () => {
   return (
     <TypeAnimation
