@@ -12,13 +12,14 @@ function CustomizedInput(props: Props) {
       name={props.name}
       label={props.label}
       type={props.type}
+      fullWidth
       inputProps={{
         style: {
-          width: "400px",
           borderRadius: 10,
           fontSize: 20,
           color: "white",
         },
+        
       }}
     ></TextField>
   );

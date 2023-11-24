@@ -55,3 +55,12 @@ body {
     transform: rotate(359deg);
   }
 }
+
+/* @media (max-width: 767px) {
+  form {
+    padding: 0 !important;
+  }
+  .textField{
+    max-width: '50px' !important;
+  }
+} */

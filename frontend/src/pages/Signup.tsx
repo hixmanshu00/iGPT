@@ -69,16 +69,17 @@ const Signup =  () => {
             >
               Signup
             </Typography>
+            <Box sx={{width:{md:'100%', xs: '310px'}}}>
             <CustomizedInput type="text" name="name" label="Name" />
             <CustomizedInput type="email" name="email" label="Email" />
             <CustomizedInput type="password" name="password" label="Password" />
             <Button
+            fullWidth
               type="submit"
               sx={{
                 px: 2,
                 py: 1,
                 mt: 2,
-                width: "400px",
                 borderRadius: 2,
                 bgcolor: "#00fffc",
                 ":hover": {
@@ -90,6 +91,7 @@ const Signup =  () => {
             >
               Signup
             </Button>
+            </Box>
           </Box>
         </form>
       </Box>
